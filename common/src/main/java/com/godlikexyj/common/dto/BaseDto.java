@@ -1,0 +1,49 @@
+package com.godlikexyj.common.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.godlikexyj.common.utils.DateUtils;
+import com.godlikexyj.common.utils.TreeNode;
+import com.godlikexyj.common.validator.group.AddGroup;
+import com.godlikexyj.common.validator.group.UpdateGroup;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 基础传输类
+ *
+ * @author xyj godlikexyj@gmail.com
+ */
+@Data
+public abstract class BaseDto extends TreeNode implements Serializable {
+	
+	@Schema(description = "id")
+    @Null(message = "{id.null}", groups = AddGroup.class)
+    @NotNull(message = "{id.require}", groups = UpdateGroup.class)
+    private Long id;
+	
+	@Schema(description = "创建者")
+	private Long creator;
+	
+	@Schema(description = "创建名")
+    private String creatorName;
+	
+	@Schema(description = "创建时间")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    private Date createDate;
+
+    @Schema(description = "更新时间")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    private Date updateDate;
+	
+	@Schema(description = "逻辑删除")
+    private Long logicalDelete;
+    
+}
